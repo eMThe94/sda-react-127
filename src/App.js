@@ -12,6 +12,7 @@ class App extends React.Component {
       decySeconds: 0,
       isActive: false,
       rounds: [],
+      users: [],
       userName: ''
     };
 
@@ -24,6 +25,7 @@ class App extends React.Component {
     this.resetStoper = this.resetStoper.bind(this);
     this.addRound = this.addRound.bind(this);
     this.onUserInputChange = this.onUserInputChange.bind(this);
+    this.addUser = this.addUser.bind(this);
   }
 
   tick() {
@@ -71,7 +73,9 @@ class App extends React.Component {
         seconds: 0,
         decySeconds: 0,
         isActive: false,
-        rounds: []
+        rounds: [],
+        userName: '',
+        users: []
       }
     });
   }
@@ -83,6 +87,22 @@ class App extends React.Component {
         rounds: [
           ...state.rounds,
           {
+            decySeconds: state.decySeconds,
+            seconds: state.seconds
+          }
+        ]
+      }
+    });
+  }
+
+  addUser() {
+    this.setState((state) => {
+      return {
+        ...state,
+        users: [
+          ...state.users,
+          {
+            userName: state.userName,
             decySeconds: state.decySeconds,
             seconds: state.seconds
           }
@@ -105,6 +125,10 @@ class App extends React.Component {
       return <li key={idx}>{round.seconds} : {round.decySeconds}</li>
     });
 
+    const usersList = this.state.users.map((user, idx) => {
+      return <li key={idx}>{user.userName} - {user.seconds} : {user.decySeconds}</li>
+    });
+
     return (
       <div>
         {!this.state.isActive && <button onClick={this.startStoper}>Start</button>}
@@ -112,11 +136,16 @@ class App extends React.Component {
         {this.state.isActive && <button onClick={this.stopStoper}>Stop</button>}
         {this.state.isActive && <button onClick={this.addRound}>Add round</button>}
         {!this.state.isActive && <input value={this.state.userName} onChange={this.onUserInputChange}></input>}
+        {!this.state.isActive && <button onClick={this.addUser}>Add user</button>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
         <h1>Rounds</h1>
         <ul>
           {listItems}
         </ul>
+        <h1>Leaderboard</h1>
+        <ol>
+          {usersList}
+        </ol>
       </div>
     );
   }
