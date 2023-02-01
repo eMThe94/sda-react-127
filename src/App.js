@@ -90,6 +90,10 @@ class App extends React.Component {
   }
 
   render() {
+    const listItems = this.state.rounds.map((round, idx) => {
+      return <li key={idx}>{round.seconds} : {round.decySeconds}</li>
+    });
+
     return (
       <div>
         {!this.state.isActive && <button onClick={this.startStoper}>Start</button>}
@@ -97,6 +101,10 @@ class App extends React.Component {
         {this.state.isActive && <button onClick={this.stopStoper}>Stop</button>}
         {this.state.isActive && <button onClick={this.addRound}>Add round</button>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
+        <h1>Rounds</h1>
+        <ul>
+          {listItems}
+        </ul>
       </div>
     );
   }
