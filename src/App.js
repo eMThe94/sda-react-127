@@ -11,7 +11,8 @@ class App extends React.Component {
       seconds: 0,
       decySeconds: 0,
       isActive: false,
-      rounds: []
+      rounds: [],
+      userName: ''
     };
 
     // Jezeli startStoper ma być funkcja obslugujaca event to
@@ -22,6 +23,7 @@ class App extends React.Component {
     this.stopStoper = this.stopStoper.bind(this);
     this.resetStoper = this.resetStoper.bind(this);
     this.addRound = this.addRound.bind(this);
+    this.onUserInputChange = this.onUserInputChange.bind(this);
   }
 
   tick() {
@@ -89,6 +91,15 @@ class App extends React.Component {
     });
   }
 
+  onUserInputChange(event) {
+    this.setState((state) => {
+      return {
+        ...state,
+        userName: event.target.value
+      };
+    })
+  }
+
   render() {
     const listItems = this.state.rounds.map((round, idx) => {
       return <li key={idx}>{round.seconds} : {round.decySeconds}</li>
@@ -100,6 +111,7 @@ class App extends React.Component {
         {!this.state.isActive && <button onClick={this.resetStoper}>Reset</button>}
         {this.state.isActive && <button onClick={this.stopStoper}>Stop</button>}
         {this.state.isActive && <button onClick={this.addRound}>Add round</button>}
+        {!this.state.isActive && <input value={this.state.userName} onChange={this.onUserInputChange}></input>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
         <h1>Rounds</h1>
         <ul>
