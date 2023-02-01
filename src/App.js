@@ -19,6 +19,7 @@ class App extends React.Component {
     // this - to oczywiscie obiekt naszego komponentu
     this.startStoper = this.startStoper.bind(this);
     this.stopStoper = this.stopStoper.bind(this);
+    this.resetStoper = this.resetStoper.bind(this);
   }
 
   tick() {
@@ -41,7 +42,7 @@ class App extends React.Component {
   startStoper() {
     if (!this.isActive) {
       this.intervalId = setInterval(() => { this.tick() }, 100);
-      this.setState((state, props)=>{
+      this.setState((state, props) => {
         return {
           ...state,
           isActive: true
@@ -52,9 +53,19 @@ class App extends React.Component {
 
   stopStoper() {
     clearInterval(this.intervalId);
-    this.setState((state, props)=>{
+    this.setState((state, props) => {
       return {
         ...state,
+        isActive: false
+      }
+    });
+  }
+
+  resetStoper() {
+    this.setState(() => {
+      return {
+        seconds: 0,
+        decySeconds: 0,
         isActive: false
       }
     });
@@ -64,6 +75,7 @@ class App extends React.Component {
     return (
       <div>
         {!this.state.isActive && <button onClick={this.startStoper}>Start</button>}
+        {!this.state.isActive && <button onClick={this.resetStoper}>Reset</button>}
         {this.state.isActive && <button onClick={this.stopStoper}>Stop</button>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
       </div>
