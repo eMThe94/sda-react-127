@@ -10,7 +10,11 @@ class App extends React.Component {
       decySeconds: 0
     };
 
-    setInterval(() => { this.tick() }, 100);
+    // Jezeli startStoper ma być funkcja obslugujaca event to
+    // musimy przypisac "this" do tej funkcji
+    // tak aby funkcja w momencie wywolania "wiedziala" czym jest "this"
+    // this - to oczywiscie obiekt naszego komponentu
+    this.startStoper = this.startStoper.bind(this);
   }
 
   tick() {
@@ -30,9 +34,16 @@ class App extends React.Component {
     });
   }
 
+  startStoper(){
+    setInterval(() => { this.tick() }, 100);
+  }
+
   render() {
     return (
+    <div>
+      <button onClick={this.startStoper}>Start</button>
       <div>{this.state.seconds} : {this.state.decySeconds}</div>
+    </div>
     );
   }
 }
