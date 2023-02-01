@@ -10,7 +10,8 @@ class App extends React.Component {
     this.state = {
       seconds: 0,
       decySeconds: 0,
-      isActive: false
+      isActive: false,
+      rounds: []
     };
 
     // Jezeli startStoper ma być funkcja obslugujaca event to
@@ -20,6 +21,7 @@ class App extends React.Component {
     this.startStoper = this.startStoper.bind(this);
     this.stopStoper = this.stopStoper.bind(this);
     this.resetStoper = this.resetStoper.bind(this);
+    this.addRound = this.addRound.bind(this);
   }
 
   tick() {
@@ -66,7 +68,23 @@ class App extends React.Component {
       return {
         seconds: 0,
         decySeconds: 0,
-        isActive: false
+        isActive: false,
+        rounds: []
+      }
+    });
+  }
+
+  addRound() {
+    this.setState((state) => {
+      return {
+        ...state,
+        rounds: [
+          ...state.rounds,
+          {
+            decySeconds: state.decySeconds,
+            seconds: state.seconds
+          }
+        ]
       }
     });
   }
@@ -77,6 +95,7 @@ class App extends React.Component {
         {!this.state.isActive && <button onClick={this.startStoper}>Start</button>}
         {!this.state.isActive && <button onClick={this.resetStoper}>Reset</button>}
         {this.state.isActive && <button onClick={this.stopStoper}>Stop</button>}
+        {this.state.isActive && <button onClick={this.addRound}>Add round</button>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
       </div>
     );
