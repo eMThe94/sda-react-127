@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+import RoundsList from './RoundsList';
+import Stoper from './Stoper';
 
 class App extends React.Component {
   intervalId;
@@ -26,6 +27,10 @@ class App extends React.Component {
     this.addRound = this.addRound.bind(this);
     this.onUserInputChange = this.onUserInputChange.bind(this);
     this.addUser = this.addUser.bind(this);
+  }
+
+  componentDidMount() {
+    console.log("SIEMKACOSTAM");
   }
 
   tick() {
@@ -121,10 +126,6 @@ class App extends React.Component {
   }
 
   render() {
-    const listItems = this.state.rounds.map((round, idx) => {
-      return <li key={idx}>{round.seconds} : {round.decySeconds}</li>
-    });
-
     const usersList = this.state.users.map((user, idx) => {
       return <li key={idx}>{user.userName} - {user.seconds} : {user.decySeconds}</li>
     });
@@ -138,14 +139,13 @@ class App extends React.Component {
         {!this.state.isActive && <input value={this.state.userName} onChange={this.onUserInputChange}></input>}
         {!this.state.isActive && <button onClick={this.addUser}>Add user</button>}
         <div>{this.state.seconds} : {this.state.decySeconds}</div>
-        <h1>Rounds</h1>
-        <ul>
-          {listItems}
-        </ul>
+        <RoundsList rounds={this.state.rounds}></RoundsList>
         <h1>Leaderboard</h1>
         <ol>
           {usersList}
         </ol>
+
+        <Stoper name="Szymon"></Stoper>
       </div>
     );
   }
